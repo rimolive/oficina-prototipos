@@ -1,0 +1,11 @@
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    yum install -y git maven
+    git clone https://github.com/redhat-developer-demos/kubernetes-lab.git
+    cd kubernetes-lab/helloworld-service
+    mvn clean compile exec:java > /var/log/helloworld-service 2>&1 &
+  SHELL
+end
